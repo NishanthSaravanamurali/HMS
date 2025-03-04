@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Patient Information</title>
+    <style type="text/css">
+    /* Modern CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #2d3748;
+    background-color: #f7fafc;
+    padding: 2rem;
+}
+
+/* Container for better content width control */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Header Styles */
+h1 {
+    color: #1a365d;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    border-bottom: 3px solid #4299e1;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+h2 {
+    color: #2b6cb0;
+    font-size: 1.8rem;
+    margin: 1.5rem 0;
+    font-weight: 600;
+}
+
+h3 {
+    color: #2c5282;
+    font-size: 1.4rem;
+    margin: 1.5rem 0 1rem;
+    font-weight: 600;
+}
+
+/* Information Paragraphs */
+p {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    color: #4a5568;
+}
+
+strong {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: #4299e1;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+
+tr:hover {
+    background-color: #f8fafc;
+}
+
+td {
+    color: #4a5568;
+}
+
+/* Back Button Link */
+a {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #4299e1;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    background-color: #2b6cb0;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Styling */
+.status {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-transform: capitalize;
+}
+
+.status-paid {
+    background-color: #c6f6d5;
+    color: #276749;
+}
+
+.status-pending {
+    background-color: #fefcbf;
+    color: #975a16;
+}
+
+.status-overdue {
+    background-color: #fed7d7;
+    color: #9b2c2c;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    a {
+        display: none;
+    }
+
+    table {
+        box-shadow: none;
+    }
+}
+</style>
+</head>
+<body>
+
+    <!-- Patient Info -->
+    <h2>Patient Information</h2>
+    <p><strong>Name:</strong> {{ patient[1] }} </p>
+    <p><strong>Age:</strong> {{ patient[2] }}</p>
+    <p><strong>Gender:</strong> {{ patient[3] }}</p>
+
+    <!-- Appointment Status -->
+    <h3>Update Appointment Status</h3>
+    <form method="POST">
+        <label for="appointment_status">Appointment Status:</label>
+        <select name="appointment_status">
+            <option value="on-going">On-going</option>
+            <option value="done">Done</option>
+        </select>
+        <button type="submit" name="update_status">Update Status</button>
+    </form>
+
+    <hr>
+
+    <!-- Medical Records -->
+    <h3>Medical Records</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Record ID</th>
+                <th>Diagnosis</th>
+                <th>Treatment</th>
+                <th>Prescribed Medicine</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in medical_records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+                <td>{{ record[3] if record[3] else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Add Medical Record -->
+    <h4>Add Medical Record</h4>
+    <form method="POST">
+        <label for="diagnosis">Diagnosis:</label>
+        <input type="text" name="diagnosis" required><br>
+
+        <label for="treatment">Treatment:</label>
+        <input type="text" name="treatment" required><br>
+
+        <label for="prescribed_medicine">Prescribed Medicine:</label>
+        <select name="prescribed_medicine">
+            <option value="">Select Medicine</option>
+            {% for medicine in medicines %}
+            <option value="{{ medicine[0] }}">{{ medicine[1] }}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit" name="add_record">Add Record</button>
+    </form>
+
+    <hr>
+
+    <!-- Lab Tests -->
+    <h3>Scheduled Lab Tests</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Lab Test ID</th>
+                <th>Test Name</th>
+                <th>Result</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for test in lab_tests %}
+            <tr>
+                <td>{{ test[0] }}</td>
+                <td>{{ test[1] }}</td>
+                <td>{{ test[2] if test[2] else 'Pending' }}</td>
+                <td>{{ test[3] }}</td>
+                <td>
+                    <form method="POST">
+                        <input type="hidden" name="lab_test_id" value="{{ test[0] }}">
+                        <label for="updated_result_{{ test[0] }}">Result:</label>
+                        <input type="text" name="updated_result_{{ test[0] }}" value="{{ test[2] }}"><br>
+
+                        <label for="updated_status_{{ test[0] }}">Status:</label>
+                        <select name="updated_status_{{ test[0] }}">
+                            <option value="scheduled" {% if test[3] == 'scheduled' %} selected {% endif %}>Scheduled</option>
+                            <option value="completed" {% if test[3] == 'completed' %} selected {% endif %}>Completed</option>
+                        </select>
+                        <button type="submit" name="update_lab_test">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Schedule New Lab Test -->
+    <h4>Schedule Lab Test</h4>
+    <form method="POST">
+        <label for="test_name">Lab Test:</label>
+        <select name="test_name">
+            <option value="">Select Test</option>
+            {% for test in available_lab_tests %}
+            <option value="{{ test[0] }}">{{ test[1] }}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit" name="schedule_lab_test">Schedule Lab Test</button>
+    </form>
+
+    <hr>
+
+    <!-- Surgery Records -->
+    <h3>Scheduled Surgeries</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Surgery ID</th>
+                <th>Surgery Name</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for surgery in surgeries %}
+            <tr>
+                <td>{{ surgery[0] }}</td>
+                <td>{{ surgery[1] }}</td> <!-- Surgery name will be displayed from the Facility table -->
+                <td>{{ surgery[2] }}</td>
+                <td>{{ surgery[3] }}</td>
+                <td>
+                    <form method="POST">
+                        <input type="hidden" name="surgery_id" value="{{ surgery[0] }}">
+                        <label for="updated_surgery_status_{{ surgery[0] }}">Status:</label>
+                        <select name="updated_surgery_status_{{ surgery[0] }}">
+                            <option value="scheduled" {% if surgery[3] == 'scheduled' %} selected {% endif %}>Scheduled</option>
+                            <option value="completed" {% if surgery[3] == 'completed' %} selected {% endif %}>Completed</option>
+                        </select>
+                        <button type="submit" name="update_surgery">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Schedule New Surgery -->
+    <h4>Schedule Surgery</h4>
+    <form method="POST">
+        <label for="surgery_name">Surgery:</label>
+        <select name="surgery_name">
+            <option value="">Select Surgery</option>
+            <option value="FAC_007">Appendectomy</option>
+            <option value="FAC_008">Heart Bypass Surgery</option>
+            <option value="FAC_009">Knee Replacement Surgery</option>
+            <option value="FAC_019">Heart Surgery</option>
+            <option value="FAC_023">Neurosurgery</option>
+            <option value="FAC_026">Joint Replacement Surgery</option>
+            <option value="FAC_027">Fracture Treatment</option>
+            <option value="FAC_030">Bronchoscopy</option>
+            <option value="FAC_035">Kidney Transplant Surgery</option>
+        </select><br>
+    
+        <label for="surgery_date">Date:</label>
+        <input type="date" name="surgery_date" required><br>
+    
+        <button type="submit" name="schedule_surgery">Schedule Surgery</button>
+    </form>
+    
+
+</body>
+</html>

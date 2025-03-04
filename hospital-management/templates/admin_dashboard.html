@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+</head>
+<style>
+    /* Modern CSS Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    background-color: ###7483A6;
+    color: #1a1a1a;
+    padding: 2rem;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #3498db;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #34495e;
+    margin: 2rem 0 1.5rem;
+    font-weight: 600;
+}
+
+/* Admin Details Table */
+table {
+    width: 100%;
+    max-width: 500px;
+    margin: 1.5rem 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+    width: 30%;
+}
+
+td {
+    color: #444;
+}
+
+/* Edit Admin Details Link */
+.edit-admin {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin: 1rem 0 2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.edit-admin:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Menu */
+ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+li {
+    transition: transform 0.3s ease;
+}
+
+li:hover {
+    transform: translateY(-2px);
+}
+
+li a {
+    display: block;
+    padding: 1.25rem;
+    background: white;
+    color: #2c3e50;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px solid #e1e8ed;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-left: 3.5rem;
+}
+
+/* Menu Icons */
+li a::before {
+    content: '';
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #3498db;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+}
+
+li a:hover {
+    background: #f8f9fa;
+    border-color: #3498db;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .dashboard-container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    ul {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        max-width: 100%;
+    }
+}
+
+/* Interactive States */
+a:focus, button:focus {
+    outline: 3px solid rgba(52, 152, 219, 0.5);
+    outline-offset: 2px;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1f2b;
+        color: #e1e8ed;
+    }
+
+    .dashboard-container {
+        background: ##505E7E;
+    }
+
+    h1 {
+        color: #e1e8ed;
+    }
+
+    h2 {
+        color: #e1e8ed;
+    }
+
+    table {
+        background: #242a38;
+    }
+
+    th {
+        background-color: #2c3648;
+        color: #e1e8ed;
+    }
+
+    td {
+        color: #e1e8ed;
+    }
+
+    li a {
+        background: #242a38;
+        color: #e1e8ed;
+        border-color: #2c3648;
+    }
+
+    li a:hover {
+        background: #2c3648;
+        border-color: #3498db;
+    }
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.mt-4 { margin-top: 1rem; }
+.mb-4 { margin-bottom: 1rem; }
+.p-4 { padding: 1rem; }
+</style>
+<body>
+    <h1>Admin Dashboard</h1>
+    
+    <!-- Display admin details -->
+    <h2>Admin Details</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <td>{{ admin[0] }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ admin[1] }}</td>
+        </tr>
+    </table>
+    <a href="{{ url_for('admin.edit_admin', admin_id=admin[0]) }}">Edit Admin Details</a>
+    <ul>
+        <li><a href="{{ url_for('admin.manage_doctors') }}">Manage Doctors</a></li>
+        <li><a href="{{ url_for('admin.manage_nurses') }}">Manage Nurses</a></li>
+        <li><a href="{{ url_for('admin.manage_staff') }}">Manage Staff</a></li>
+        <li><a href="{{ url_for('admin.manage_departments') }}">Manage Departments</a></li>
+        <li><a href="{{ url_for('admin.manage_facilities') }}">Manage Facilities</a></li>
+        <li><a href="{{ url_for('admin.view_patients') }}">View Patients</a></li>
+        <li><a href="{{ url_for('admin.view_appointments') }}">View Appointments</a></li>
+        <li><a href="{{ url_for('admin.view_lab_reports') }}">View Lab Reports</a></li>
+        <li><a href="{{ url_for('admin.view_surgeries') }}">View Surgeries</a></li>
+        <li><a href="{{ url_for('admin.view_pharmacy') }}">View Pharmacy</a></li>
+        <li><a href="{{ url_for('admin.view_all_bills') }}">View Bills</a></li>
+        <li><a href="{{ url_for('admin.view_rooms') }}">View Rooms</a></li>
+    </ul>
+</body>
+</html>

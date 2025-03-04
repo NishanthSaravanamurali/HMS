@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Pharmacy</title>
+</head>
+<style type="text/css">
+    /* Modern CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #2d3748;
+    background-color: #f7fafc;
+    padding: 2rem;
+}
+
+/* Container for better content width control */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Header Styles */
+h1 {
+    color: #1a365d;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    border-bottom: 3px solid #4299e1;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+h2 {
+    color: #2b6cb0;
+    font-size: 1.8rem;
+    margin: 1.5rem 0;
+    font-weight: 600;
+}
+
+h3 {
+    color: #2c5282;
+    font-size: 1.4rem;
+    margin: 1.5rem 0 1rem;
+    font-weight: 600;
+}
+
+/* Information Paragraphs */
+p {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    color: #4a5568;
+}
+
+strong {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: #4299e1;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+
+tr:hover {
+    background-color: #f8fafc;
+}
+
+td {
+    color: #4a5568;
+}
+
+/* Back Button Link */
+a {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #4299e1;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    background-color: #2b6cb0;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Styling */
+.status {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-transform: capitalize;
+}
+
+.status-paid {
+    background-color: #c6f6d5;
+    color: #276749;
+}
+
+.status-pending {
+    background-color: #fefcbf;
+    color: #975a16;
+}
+
+.status-overdue {
+    background-color: #fed7d7;
+    color: #9b2c2c;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    a {
+        display: none;
+    }
+
+    table {
+        box-shadow: none;
+    }
+}
+</style>
+<body>
+    <h1>Pharmacy Inventory</h1>
+    <table border="1">
+        <tr>
+            <th>MedicineID</th>
+            <th>Medicine Name</th>
+            <th>Cost</th>
+            <th>Stock</th>
+            <th>Update Cost & Stock</th>
+        </tr>
+        {% for medicine in medicines %}
+        <tr>
+            <td>{{ medicine[0] }}</td> <!-- MedicineID -->
+            <td>{{ medicine[1] }}</td> <!-- MedicineName -->
+            <td>{{ medicine[2] }}</td> <!-- Cost -->
+            <td>{{ medicine[3] }}</td> <!-- Stock -->
+            <td>
+                <form method="POST">
+                    <input type="hidden" name="medicine_id" value="{{ medicine[0] }}">
+                    <input type="text" name="cost_{{ medicine[0] }}" value="{{ medicine[2] }}">
+                    <input type="number" name="stock_{{ medicine[0] }}" value="{{ medicine[3] }}">
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

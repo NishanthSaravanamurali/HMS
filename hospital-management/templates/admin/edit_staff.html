@@ -1,0 +1,158 @@
+<h1>Edit Staff</h1>
+
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
+<style type="text/css">
+    /* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and Container */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #2d3748;
+    background-color: #f7fafc;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Title and Header */
+h1 {
+    color: #1a365d;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    border-bottom: 3px solid #4299e1;
+    padding-bottom: 0.5rem;
+}
+
+/* Error message */
+p {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    color: #4a5568;
+}
+
+strong {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+/* Form Styling */
+form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+label {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+input[type="password"], input[type="text"], select {
+    background-color: #fafafa;
+}
+
+button {
+    background-color: #4299e1;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #2b6cb0;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Back Button Link */
+a {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #4299e1;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    background-color: #2b6cb0;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    form {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    input, select, button {
+        font-size: 0.95rem;
+    }
+}
+
+</style>
+<form method="POST">
+    <label for="name">Staff Name:</label>
+    <input type="text" id="name" name="name" value="{{ staff[1] }}" required><br>
+
+    <label for="role">Role:</label>
+    <input type="text" id="role" name="role" value="{{ staff[2] }}" required><br>
+
+    <label for="department_id">Department ID:</label>
+    <select id="department_id" name="department_id" required>
+        <option value="">Select Department</option>
+        {% for dept in departments %}
+            <option value="{{ dept[0] }}">{{ dept[0] }} - {{ dept[1] }}</option>
+        {% endfor %}
+    </select><br>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" value="{{ staff[4] }}" required><br>
+
+    <button type="submit">Update Staff</button>
+</form>
+
+<a href="{{ url_for('admin.manage_staff') }}">Back to Staff Management</a>

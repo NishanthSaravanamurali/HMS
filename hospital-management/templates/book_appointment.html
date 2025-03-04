@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <script>
+        // Function to load doctors based on appointment type (General or Specialist)
+        function loadDoctors() {
+            const appointmentType = document.getElementById('facility_id').value;
+            const doctorDropdown = document.getElementById('doctor_id');
+            let type = 'general';
+
+            // Set appointment type based on selected facility
+            if (appointmentType === 'FAC_002') {
+                type = 'specialist';
+            }
+
+            // Fetch doctors from the backend based on the appointment type
+            fetch(`/patient/get_doctors?type=${type}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing doctor options
+                    doctorDropdown.innerHTML = '<option value="">Select Doctor</option>';
+
+                    // Populate doctor dropdown with new data
+                    data.forEach(doctor => {
+                        const option = document.createElement('option');
+                        option.value = doctor[0];  // DoctorID
+                        option.textContent = `${doctor[1]} (${doctor[2]})`;  // Doctor Name (Department Name)
+                        doctorDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading doctors:', error));
+        }
+
+        // Clear doctor list on page load
+        window.onload = function() {
+            const doctorDropdown = document.getElementById('doctor_id');
+            doctorDropdown.innerHTML = '<option value="">Select Doctor</option>';
+        }
+    </script>
+</head>
+<style type="text/css">
+    /* Global Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9fafb;
+        color: #2d3748;
+        padding: 3rem;
+    }
+
+    /* Container */
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    /* Header */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2b6cb0;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #4299e1;
+        padding-bottom: 10px;
+    }
+
+    /* Form Styling */
+    form {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        font-size: 1rem;
+        color: #4a5568;
+        margin-bottom: 8px;
+    }
+
+    input[type="date"],
+    select,
+    input[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 1.25rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+    input[type="submit"] {
+        background-color: #4299e1;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #2b6cb0;
+    }
+
+    select {
+        background-color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    select:focus,
+    input[type="date"]:focus {
+        border-color: #4299e1;
+        outline: none;
+    }
+
+    /* Error message */
+    .error {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: -1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Back Button */
+    a {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 12px 24px;
+        background-color: #4299e1;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    a:hover {
+        background-color: #2b6cb0;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        body {
+            padding: 1.5rem;
+        }
+
+        form {
+            padding: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        input[type="date"],
+        select,
+        input[type="submit"] {
+            font-size: 0.95rem;
+        }
+
+        a {
+            font-size: 0.95rem;
+        }
+    }
+
+    @media print {
+        body {
+            padding: 0;
+            background: white;
+        }
+
+        a {
+            display: none;
+        }
+
+        table {
+            box-shadow: none;
+        }
+    }
+</style>
+<body>
+    <div class="container">
+        <h1>Book an Appointment</h1>
+        <form method="POST">
+            <label for="appointment_date">Preferred Date:</label>
+            <input type="date" id="appointment_date" name="appointment_date" required><br>
+
+            <label for="appointment_time">Time Slot:</label>
+            <select id="appointment_time" name="appointment_time" required>
+                <option value="10:00">10:00 - 10:30</option>
+                <option value="10:30">10:30 - 11:00</option>
+                <option value="11:00">11:00 - 11:30</option>
+                <option value="11:30">11:30 - 12:00</option>
+                <option value="12:00">12:00 - 12:30</option>
+                <option value="12:30">12:30 - 1:00</option>
+                <option value="14:00">14:00 - 14:30</option>
+                <option value="14:30">14:30 - 15:00</option>
+                <option value="15:00">15:00 - 15:30</option>
+                <option value="15:30">15:30 - 16:00</option>
+                <option value="16:00">16:00 - 16:30</option>
+                <option value="16:30">16:30 - 17:00</option>
+            </select><br>
+
+            <label for="facility_id">Select Appointment Type:</label>
+            <select id="facility_id" name="facility_id" onchange="loadDoctors()" required>
+                <option value="FAC_001">General Appointment - 500</option>
+                <option value="FAC_002">Specialist Appointment - 1000</option>
+            </select><br>
+
+            <label for="doctor_id">Select Doctor:</label>
+            <select id="doctor_id" name="doctor_id" required>
+                <!-- Options will be populated dynamically -->
+                <option value="">Select Doctor</option>
+            </select><br>
+
+            <input type="submit" value="Book Appointment">
+            <!-- Error message (displayed only if booking fails) -->
+            {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>
